@@ -30,3 +30,15 @@ from order_cte
 where rank = 1
 group by customer_id, product_name
 
+--Q4. What is the most purchased item on the menu and how many times was it purchased by all customers?
+
+select top 1 b.product_name, count(*) as purchased_item_count
+from sales a
+left join menu b
+on a.product_id = b.product_id
+group by a.product_id, b.product_name
+order by 2 desc
+
+
+
+
