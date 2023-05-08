@@ -41,16 +41,20 @@ order by 2 desc
 
 --Q5. Which item was the most popular for each customer?
 
-with items_cte as(
-select a.customer_id, b.product_name,
-DENSE_RANK() over (Partition by a.customer_id order by a.product_id) as rank
+With items_cte as (
+select a.customer_id, b.product_name, count(*) item_count,
+dense_rank() over (partition by customer_id order by count(a.product_id) desc) as rank
 from sales a
 left join menu b
-on a.product_id = b.product_id)
+on a.product_id = b.product_id
+group by a.customer_id, b.product_name)
 
-select customer_id, product_name, rank
+
+select customer_id, product_name, item_count
 from items_cte
-group by customer_id, product_name, rank
+where rank = 1
+
+
 
 
 
