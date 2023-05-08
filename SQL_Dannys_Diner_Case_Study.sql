@@ -18,9 +18,15 @@ group by customer_id
 
 --Q3. What was the first item from the menu purchased by each customer?
 
-select a.customer_id, b.product_name,
-DENSE_RANK() over (PARTITION BY a.customer_id order by a.customer_id)
+With order_cte as(
+select a.customer_id, a.order_date, b.product_name,
+DENSE_RANK() over (PARTITION BY a.customer_id order by a.order_date) as rank
 from sales a
 left join menu b
-on a.product_id = b.product_id
-group by a.customer_id
+on a.product_id = b.product_id)
+
+select customer_id, product_name
+from order_cte
+where rank = 1
+group by customer_id, product_name
+
