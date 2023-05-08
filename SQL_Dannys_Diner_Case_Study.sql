@@ -16,3 +16,11 @@ group by a.customer_id
 select customer_id, count(distinct(order_date)) as visit_count from sales
 group by customer_id
 
+--Q3. What was the first item from the menu purchased by each customer?
+
+select a.customer_id, b.product_name,
+DENSE_RANK() over (PARTITION BY a.customer_id order by a.customer_id)
+from sales a
+left join menu b
+on a.product_id = b.product_id
+group by a.customer_id
