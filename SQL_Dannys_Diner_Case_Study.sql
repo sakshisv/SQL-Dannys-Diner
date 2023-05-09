@@ -97,20 +97,17 @@ group by b.customer_id
 
 --Q9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 
-With cust_points_cte as (
-select *,
-Case when product_id = 'sushi' then (price) * 20
-else (price) * 10
-end as points)
+With customer_points_cte as (
+select *, 
+Case when product_name = 'sushi' then (price) * 20
+else (price) * 10 
+end as points
+from menu)
 
-select * from cust_points_cte
-from sales a
-left join menu b
+select b.customer_id, sum(a.points) as Total_points from customer_points_cte a
+left join sales b
 on a.product_id = b.product_id
-group by a.customer_id, b.product_name, b.price)
-
-select * from cust_points_cte
-group by customer_id
+group by b.customer_id
 	
 
 
