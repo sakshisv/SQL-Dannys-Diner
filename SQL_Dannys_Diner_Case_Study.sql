@@ -54,10 +54,13 @@ select customer_id, product_name, item_count
 from items_cte
 where rank = 1
 
+--Q6. Which item was purchased first by the customer after they became a member?
 
-
-
-
+select * from members a
+left join sales b
+on a.customer_id = b. customer_id
+left join menu c
+on b.product_id = c.product_id
 
 
 
