@@ -84,6 +84,20 @@ where b.order_date < a.join_date)
 select customer_id, order_date, product_name from member_sales_cte
 where rank = 1
 
+--Q8. What is the total items and amount spent for each member before they became a member?
+
+select b.customer_id, count(b.product_id) as total_items, sum(c.price) amount_spent
+from members a
+left join sales b
+on a.customer_id = b. customer_id
+left join menu c
+on b.product_id = c.product_id
+where b.order_date < a.join_date
+group by b.customer_id
+
+--Q9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+
+
 
 
 
