@@ -56,11 +56,32 @@ where rank = 1
 
 --Q6. Which item was purchased first by the customer after they became a member?
 
-select * from members a
+With member_cte as (
+select b.customer_id, b.order_date, c.product_name,
+DENSE_RANK() over (partition by b.customer_id order by b.order_date) as rank
+from members a
 left join sales b
 on a.customer_id = b. customer_id
 left join menu c
 on b.product_id = c.product_id
+where b.order_date >= a.join_date)
+
+select customer_id, order_date, product_name from member_cte
+where rank = 1
+
+
+
+
+
+
+select top 1 c.product_name from members a
+left join sales b
+on a.customer_id = b. customer_id
+left join menu c
+on b.product_id = c.product_id
+where b.order_date > a.join_date
+order by b.order_date asc
+
 
 
 
