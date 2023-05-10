@@ -1,8 +1,14 @@
+------- Danny's Diner Case Study -------
+
+-- Database
 use Dannys_Diner
 
+--Tables
 select * from members
 select * from menu
 select * from sales
+
+-- Questions:
 
 -- Q1. What is the total amount each customer spent at the restaurant?
 
@@ -132,7 +138,4 @@ on b.product_id = c.product_id
 where b.order_date < a.last_date
 group by b.customer_id
 
-
-
-
-
+------------------------------------------------------------------------------------------------------------
