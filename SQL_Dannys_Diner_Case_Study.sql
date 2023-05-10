@@ -155,8 +155,21 @@ on a.product_id = b.product_id
 left join members c
 on a.customer_id = c.customer_id
 
+-- Rank all the Things!
+-- Danny also requires further information about the ranking of customer products, but he purposely does not need the ranking for 
+-- non-member purchases so he expects null ranking values for the records when customers are not yet part of the loyalty program.
 
-
+With all_tables_cte as (
+select a.customer_id, a.order_date, b.product_name, b.price,  
+case
+when a.order_date >= c.join_date then 'Y'
+else 'N'
+end as member
+from sales a
+left join menu b
+on a.product_id = b.product_id
+left join members c
+on a.customer_id = c.customer_id)
 
 
 
