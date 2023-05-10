@@ -112,9 +112,25 @@ group by b.customer_id
 --Q10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, 
 --     not just sushi - how many points do customer A and B have at the end of January?
 
+With dates_cte as (
 select *,
+DATEADD(DAY, 6, join_date) valid_date,
+EOMONTH('2021-01-31') last_date
+from members)
 
-from members
+select b.customer_id,  
+sum(case 
+when c.product_name = 'sushi' then (c.price) * 20
+when b.order_date between a.join_date and a.valid_date then (c.price) *20
+else (c.price) * 10
+end) as points
+from dates_cte a
+left join sales b
+on a.customer_id = b.customer_id
+left join menu c
+on b.product_id = c.product_id
+where b.order_date < a.last_date
+group by b.customer_id
 
 
 
