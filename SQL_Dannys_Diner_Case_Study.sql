@@ -138,4 +138,28 @@ on b.product_id = c.product_id
 where b.order_date < a.last_date
 group by b.customer_id
 
+
+------ BONUS QUESTIONS ------
+
+-- Join all the Tables! : 
+-- Recreate the table with: customer_id, order_date, product_name, price, member (Y/N).
+
+select a.customer_id, a.order_date, b.product_name, b.price,  
+case
+when a.order_date >= c.join_date then 'Y'
+else 'N'
+end as member
+from sales a
+left join menu b
+on a.product_id = b.product_id
+left join members c
+on a.customer_id = c.customer_id
+
+
+
+
+
+
+
+
 ------------------------------------------------------------------------------------------------------------
